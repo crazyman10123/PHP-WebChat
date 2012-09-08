@@ -1,0 +1,73 @@
+This is the documentation for creating plugins.
+If you have any questions that are not answered after reading this, feel free to email me at dmaciel10123@gmail.com.
+I will add a FAQ section if I ever get any questions.
+
+Now, to start, are important variables.
+The major variables are $sentMessage and $prefix.
+$sentMessage is the pure user input. To check if a command is being used, you would use if($sentMessage == $prefix."command").
+$prefix is the variable that is defined in the configuration file. This variable is the command initiator.
+Three other variables you need to know to make a plugin are $file, $past, and $finalMessage.
+$file is defined in the configuration file and is the file that contains all of the messages that have been sent.
+$finalMessage is the variable that will be written to the file.
+$past is the history of all of the messages current in the file.
+
+Now, to combine all of that into a quick plugin we can use the hello plugin as an example.
+If you take a look at the hello.php file, you will see the following:
+
+<?php
+	if($sentMessage == $prefix."hello") {
+		$finalMessage = $systemName."Hello ".$_SESSION['username'];
+		$new = file_put_contents($file, $past."\n".$message);
+	}
+?>
+
+(In this example I've removed the comments because I'll be explaining it here.)
+Now, you can clearly see the if($sentMessage == $prefix."hello") part of the script.
+This part of the script checks if the message being sent is the command. Unless it is the command, this is the only part
+of the script that gets processed.
+Now, let's say that the command has been used. This script recognizes it and performs whatever is inside of the if function.
+As you can see, the next line has the $fnalMessage variable. It is defining what message is going to be written to the file.
+There are two other variables in this line. $systemName and $_SESSION['username']. $systemName is what the bot part of the
+chat is called. $_SESSION['username'] is the name of whoever is sending the message.
+
+After setting the message, you see the $new variable. This part is used for testing. If you suspect there might be an error
+in the script, you can add the following right after the $new variable:
+if(!$new) {
+	die("Something went wrong. Could not write to file.");
+}
+and the script will end if it cannot write to the file. That's how you know that there is a problem in the script.
+The part that comes after that though is made to write to the file. It uses file_put_contents() to put $finalMessage into
+$file with $past before it.
+
+If I have yet to lose you, this next part is the final part of the documentation for now.
+Here I will teach you how to use arguments in your script. 
+
+The following is an upgraded version of the hello command.
+
+<?php
+	$msgArg = explode(" ", $sentMessage);
+	if($msgArg[0] == $prefix."hello") {
+		if(!empty($msgArg[1])) {
+			$finalMessage = $systemName."Hello ".$msgArg[1];
+		}
+		else {
+			$finalMessage = $systemName."Hello ".$_SESSION['username'];
+		}
+		$new = file_put_contents($file, $past."\n".$message);
+	}
+?>
+
+This may look a little bit complicated but it's very simple. It still has the same needed variables as before, but now it
+also has a new variable. $msgArg. $msgArg is actually an array that is created by the explode() function. The explode()
+function takes the $sentMessage variable and splits the string into an array based on the spaces in the string. This allows
+the command to take arguments. The command will always be found in the [0] offset of the array. Any arguments will be found
+after that. As you can see, this command takes one argument. It is found in the [1] offset. This argument is used to tell the
+script who it's saying hello to. If it is blank, it says hello to the person who used the command. The point of this is to 
+show you how to incorporate arrays into your plugins. They can come in handy and allow a more powerful plugin to be written.
+After it explodes the string, they are assigned to different offsets. These are determined by when the word occurs in the
+string. If you were to have two arguments, they would be $msgArg[1] and $msgArg[2]. That's the easiest part, because the 
+arguments are the same number offset as they'll be in the string.
+
+That's all I can teach you for now.
+
+I'm leaving the rest in your hands. Go and make the best plugin you can and I may possibly add it directly into the repo!
