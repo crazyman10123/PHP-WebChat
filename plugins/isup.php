@@ -5,16 +5,16 @@
 	$past = file_get_contents($file);
 
 	//This is used to identify the command and the arguments given to the command.
-	$check = explode(" ", $themessage);
+	$check = explode(" ", $sentMessage);
 
 	//Checks if the first part of the array is the command. If so, initiate the script.
 	if($check[0] == $prefix."isup") {
 		if (isDomainAvailible($check[1]) && !strstr($check[1], "localhost") && !strstr($check[1], "192.168.") && !strstr($check[1], "127.0.0.1")) {
-			$message = $check[1]." is up and running!";
+			$finalMessage = $check[1]." is up and running!";
 		} else {
-			$message = $check[1]." is currently down. Sorry!";
+			$finalMessage = $check[1]." is currently down. Sorry!";
 		}
-		$new = file_put_contents($file, $past."\n".$message);
+		$new = file_put_contents($file, $past."\n".$finalMessage);
 	}
 
 	function isDomainAvailible($domain) {

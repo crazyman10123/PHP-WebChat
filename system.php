@@ -18,7 +18,7 @@ if(strpos($bans, $_SESSION['username']) == false) {
 		$sentMessage = stripslashes(strip_tags($_POST['message'],"<a><p><strong><img>"));
 
 		//Combine the sent message and the username into the final message being sent.
-		$finalMessage =  $_SESSION['username'].": ".$themessage;
+		$finalMessage =  $_SESSION['username'].": ".$sentMessage;
 
 		//Check if the message and make sure that it isn't the clear command.
 		if($sentMessage != $prefix."clear") {
