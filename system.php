@@ -1,6 +1,7 @@
 <?php
-//Include the configuration file.
-include "config.php";
+//Include the mysql file.
+//Since the mysql file already includes config.php, we don't need to include it here.
+include 'mysql.php';
 
 //Get the previous messages.
 $past = file_get_contents($file);

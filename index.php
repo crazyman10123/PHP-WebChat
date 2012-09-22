@@ -1,10 +1,6 @@
 <?php
 //Initiate the session. Check if session username and the post username are set.
 session_start();
-if(!empty($_POST['username']) && empty($_SESSION['username'])) {
-	//This sets the session username. Username will disappear when the browser is closed.
-	$_SESSION['username'] = $_POST['username'];
-}
 ?>
 <!--Here's your HTML stuff.-->
 <!DOCTYPE html>
@@ -20,10 +16,12 @@ Pick Your Title
 //If the session username isn't set, don't show the chat but show the form that lets them set their username.
 if(empty($_SESSION['username'])) {
 ?>
-<form method="post" action="">
-<input type="text" name="username" placeholder="Username" autofocus="autofocus" class="input"><br />
+<form method="post" action="login.php">
+<input type="text" name="username" placeholder="Username" class="input"><br />
+<input type="password" name="password" placeholder="Password"><br />
 <input type="submit" value="Submit" class="button"><br />
 </form>
+<a href="register.php">Need to register?</a><br />
 <?php
 }
 
@@ -38,6 +36,7 @@ if(!empty($_SESSION['username'])) {
 <input type="text" size="50" placeholder="Message" name="message" autocomplete="off" autofocus="autofocus" class="input"><br />
 <input type="submit" value="Submit" class="button">
 </form>
+<a href="logout.php">Log Out</a>
 </div>
 <?php
 }
